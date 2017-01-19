@@ -1,10 +1,32 @@
 <html>
 <head>
     <title>PDF viewer</title>
+    <script>
+function convert() {
+    if (window.XMLHttpRequest) {
+        // code for IE7+, Firefox, Chrome, Opera, Safari
+        xmlhttp = new XMLHttpRequest();
+    } else {
+        // code for IE6, IE5
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    // Idea--kind of a pain to decide to use AJAX for this anyways
+    // Instead, make the server script take URL params
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+            document.getElementById("entry_table").innerHTML = xmlhttp.responseText;
+        }
+    };
+    xmlhttp.open("GET","../cgi-bin/pdf_convert.py",true);
+    xmlhttp.send();
+}
+    </script>
 </head>
 <body>
     <center><h1>View PDFs by converting them to PNGs</h1>
-        <p><a onclick="alert('test')">Convert</a></p>
+        <p><a onclick="convert();">Convert</a></p>
+        <br>
+        <div id='entry_table'></div>
     </center>
 </body>
 </html>
